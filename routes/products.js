@@ -1,7 +1,6 @@
-const { dbUrl } = require('../config');
 const modelDataBase = require('../models/general-model');
 
-const productModel = modelDataBase('products', dbUrl);
+const productModel = modelDataBase('products');
 
 const modelController = require('../controllers/product-controller');
 

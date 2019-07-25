@@ -1,10 +1,9 @@
-const { dbUrl } = require('../config');
 const modelDataBase = require('../models/general-model');
 
-const orderModel = modelDataBase('orders', dbUrl);
+const orderModel = modelDataBase('orders');
 const modelController = require('../controllers/order-controller');
 
-const productModel = modelDataBase('products', dbUrl);
+const productModel = modelDataBase('products');
 const orderController = modelController(orderModel, productModel);
 const {
   requireAuth,

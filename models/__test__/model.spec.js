@@ -16,26 +16,29 @@ describe('Base de datos en memoria', () => {
     userController = modelDataBase('users', dbUrl);
   });
 
-  it('Insertando un Documento en BD', async () => {
+  it('Insertando un Documento en BD', async (done) => {
     const mockUser = { email: 'mesero@gmail.com', password: bcrypt.hashSync('123', 10) };
     const insertedUser = await userController.createDocument(mockUser);
     expect(insertedUser.ops[0]).toEqual(mockUser);
+    done();
   });
 
-  it('Editando un Documento en la BD', async () => {
+  it('Editando un Documento en la BD', async (done) => {
     const mockUser = { email: 'meseroactualizado@gmail.com', password: bcrypt.hashSync('123', 10) };
     const user = await userController.searchDataBase({ email: 'mesero@gmail.com' });
     await userController.updateDocument(user._id, mockUser);
     const updateUserOne = await userController.searchDataBase({ email: 'meseroactualizado@gmail.com' });
     expect(updateUserOne.email).toEqual('meseroactualizado@gmail.com');
+    done();
   });
-  it('Eliminando un Documento en la BD', async () => {
+  it('Eliminando un Documento en la BD', async (done) => {
     const user = await userController.searchDataBase({ email: 'meseroactualizado@gmail.com' });
     await userController.deleteDocument(user._id);
     const deleteUserOne = await userController.searchDataBase({ email: 'meseroactualizado@gmail.com' });
     expect(deleteUserOne).toEqual(null);
+    done();
   });
-  it('Lista de usuarios de la pagina dos con un limite de 5', async () => {
+  it('Lista de usuarios de la pagina dos con un limite de 5', async (done) => {
     const createUsersMany = (cont, numDoc) => {
       while (cont <= numDoc) {
         userController.createDocument({
@@ -47,9 +50,12 @@ describe('Base de datos en memoria', () => {
       }
     };
     await createUsersMany(1, 10);
-    const users = await userController.showListCollections(5, 10);
-    expect(users[0].email).toEqual('user006@localhost');
+
+    const users = await userController.showListCollections();
+    console.log(users)
+    expect(users[0].email).toEqual('user005@localhost');
     expect(users[4].email).toEqual('user0010@localhost');
+    done();
   });
 
   afterAll(async () => {

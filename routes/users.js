@@ -1,9 +1,8 @@
 const bcrypt = require('bcrypt');
 const db = require('../services/connection');
-const { dbUrl } = require('../config');
 const modelDataBase = require('../models/general-model');
 
-const userModel = modelDataBase('users', dbUrl);
+const userModel = modelDataBase('users');
 const modelController = require('../controllers/user-controller');
 
 const userController = modelController(userModel)(bcrypt);
@@ -25,9 +24,9 @@ const initAdminUser = async (app, next) => {
     roles: { admin: true },
   };
   // TODO: crear usuarix admin
-  const userAdmin = await ((await db(dbUrl)).collection('users').findOne({ email: adminUser.email }));
+  const userAdmin = await ((await db()).collection('users').findOne({ email: adminUser.email }));
   if (!userAdmin) {
-    await ((await db(dbUrl)).collection('users').insertOne(adminUser));
+    await ((await db()).collection('users').insertOne(adminUser));
   }
   return next();
 };
