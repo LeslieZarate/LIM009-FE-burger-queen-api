@@ -1,13 +1,13 @@
 const { MongoClient } = require('mongodb');
-const { dbUrl } = require('../config');
 
 let db = null;
-module.exports = async () => {
+
+module.exports = async (dbUrl) => {
   if (!db) {
     const client = new MongoClient(dbUrl, { useNewUrlParser: true });
     try {
       await client.connect();
-      db = client.db();
+      db = await client.db();
       console.info('base de datos conectada');
       return db;
     } catch (err) {
