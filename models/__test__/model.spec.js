@@ -52,7 +52,6 @@ describe('Base de datos en memoria', () => {
     await createUsersMany(1, 10);
 
     const users = await userController.showListCollections();
-    console.log(users)
     expect(users[0].email).toEqual('user005@localhost');
     expect(users[4].email).toEqual('user0010@localhost');
     done();

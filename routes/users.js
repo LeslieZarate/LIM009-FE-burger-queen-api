@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt');
+const { dbUrl } = require('../config');
 const modelDataBase = require('../models/general-model');
 
-const userModel = modelDataBase('users');
+const userModel = modelDataBase('users', dbUrl);
 const modelController = require('../controllers/user-controller');
 
 const userController = modelController(userModel)(bcrypt);
@@ -71,7 +72,6 @@ module.exports = (app, next) => {
     } else {
       searchEmailOrId = { email: id };
     }
-
     const user = await userModel.searchDataBase(searchEmailOrId);
     if (!user) {
       return next(404);
