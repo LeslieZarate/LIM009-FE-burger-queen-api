@@ -6,7 +6,6 @@ const { dbUrl } = require('../config');
 
 module.exports = secret => (req, resp, next) => {
   const { authorization } = req.headers;
-
   if (!authorization) {
     return next();
   }

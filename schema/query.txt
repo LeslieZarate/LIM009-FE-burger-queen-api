@@ -1,0 +1,16 @@
+mutation{
+	login(email:"admin@localhost",password:"changeme"){
+    message
+    tokens
+  }  
+}
+
+{
+  user(id: "5d3a45e2f54c860ec2cbf968"){    
+    _id
+    email
+    roles{
+      admin
+    }
+  }
+}
